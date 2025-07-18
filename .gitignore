@@ -13,3 +13,4 @@ fonts/
 reports/
 build/
 dist/
+task_tracker_tool/*.spec
