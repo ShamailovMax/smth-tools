@@ -54,21 +54,27 @@ def to_pdf(title="Tasks Report", output="report.pdf"):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt=title, ln=1, align="C")
 
-    pdf.cell(10, 10, "ID", 1)
-    pdf.cell(50, 10, "Title", 1)
-    pdf.cell(80, 10, "Description", 1)
-    pdf.cell(30, 10, "Status", 1)
-    pdf.cell(20, 10, "Date", 1)
+    def safe_text(text):
+        if isinstance(text, str):
+            return text.encode('latin-1', errors='replace').decode('latin-1')
+        return str(text)
+
+    pdf.cell(200, 10, txt=safe_text(title), ln=1, align="C")
+
+    headers = ["ID", "Title", "Description", "Status", "Date"]
+    col_widths = [10, 50, 80, 30, 20]
+    
+    for header, width in zip(headers, col_widths):
+        pdf.cell(width, 10, safe_text(header), 1)
     pdf.ln()
 
     for task in tasks:
-        pdf.cell(10, 10, str(task.id), 1)
-        pdf.cell(50, 10, task.title, 1)
-        pdf.cell(80, 10, task.description or "", 1)
-        pdf.cell(30, 10, task.status, 1)
-        pdf.cell(20, 10, task.created_at.strftime("%Y-%m-%d"), 1)
+        pdf.cell(col_widths[0], 10, safe_text(task.id), 1)
+        pdf.cell(col_widths[1], 10, safe_text(task.title), 1)
+        pdf.cell(col_widths[2], 10, safe_text(task.description), 1)
+        pdf.cell(col_widths[3], 10, safe_text(task.status), 1)
+        pdf.cell(col_widths[4], 10, safe_text(task.created_at.strftime("%Y-%m-%d")), 1)
         pdf.ln()
 
     pdf.output(output)
