@@ -1,6 +1,10 @@
-import argparse
 from datetime import datetime
+
 from models import Session, Task
+
+import argparse
+from fpdf import FPDF
+
 
 def add_task(title, description, status):
     session = Session()
@@ -8,6 +12,7 @@ def add_task(title, description, status):
     session.add(task)
     session.commit()
     print(f"Задача добавлена: ID {task.id}")
+
 
 def list_tasks(status=None):
     session = Session()
@@ -17,6 +22,7 @@ def list_tasks(status=None):
     tasks = query.all()
     for task in tasks:
         print(f"{task.id} | {task.title} | {task.status} | {task.created_at}")
+
 
 def update_task(task_id, **kwargs):
     session = Session()
@@ -29,6 +35,7 @@ def update_task(task_id, **kwargs):
     session.commit()
     print(f"Задача {task_id} обновлена")
 
+
 def delete_task(task_id):
     session = Session()
     task = session.query(Task).get(task_id)
@@ -39,8 +46,6 @@ def delete_task(task_id):
     session.commit()
     print(f"Задача {task_id} удалена")
 
-
-from fpdf import FPDF
 
 def to_pdf(title="Tasks Report", output="report.pdf"):
     session = Session()
@@ -113,8 +118,6 @@ def main():
         to_pdf(args.title, args.output)
     else:
         parser.print_help()
-
-
 
 
 if __name__ == "__main__":
