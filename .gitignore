@@ -10,4 +10,6 @@ fonts/
 *.pdf
 *.doc
 *.docx
-reports
+reports/
+build/
+dist/
