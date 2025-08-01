@@ -14,3 +14,4 @@ reports/
 build/
 dist/
 task_tracker_tool/*.spec
+txt_files_scraper/
