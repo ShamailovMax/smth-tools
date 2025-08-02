@@ -15,3 +15,4 @@ build/
 dist/
 task_tracker_tool/*.spec
 txt_files_scraper/
+url_shortener/src/messages.py
